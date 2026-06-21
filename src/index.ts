@@ -1,0 +1,98 @@
+export type { XpozToolOptions } from "./client.js";
+export { createLazyClient } from "./client.js";
+
+export {
+  xpozTwitterSearch,
+  xpozTwitterUser,
+  xpozTwitterUserPosts,
+  xpozTwitterPostComments,
+  xpozTwitterSearchUsers,
+  xpozTwitterUserConnections,
+  xpozTwitterUsersByKeywords,
+  xpozTwitterCountPosts,
+} from "./tools/twitter.js";
+
+export {
+  xpozInstagramSearch,
+  xpozInstagramUser,
+  xpozInstagramUserPosts,
+  xpozInstagramPostComments,
+  xpozInstagramSearchUsers,
+  xpozInstagramUsersByKeywords,
+} from "./tools/instagram.js";
+
+export {
+  xpozRedditSearch,
+  xpozRedditUser,
+  xpozRedditPostWithComments,
+  xpozRedditSearchComments,
+  xpozRedditSearchSubreddits,
+  xpozRedditSubreddit,
+  xpozRedditUsersByKeywords,
+} from "./tools/reddit.js";
+
+export {
+  xpozTiktokSearch,
+  xpozTiktokUser,
+  xpozTiktokUserPosts,
+  xpozTiktokPostComments,
+  xpozTiktokSearchUsers,
+  xpozTiktokPostsByHashtags,
+  xpozTiktokUsersByKeywords,
+} from "./tools/tiktok.js";
+
+export {
+  xpozGetTrackedItems,
+  xpozAddTrackedItems,
+  xpozRemoveTrackedItems,
+} from "./tools/tracking.js";
+
+export { xpozAccountDetails } from "./tools/account.js";
+
+import type { XpozToolOptions } from "./client.js";
+import { createLazyClient } from "./client.js";
+import { xpozTwitterSearch, xpozTwitterUser, xpozTwitterUserPosts, xpozTwitterPostComments, xpozTwitterSearchUsers, xpozTwitterUserConnections, xpozTwitterUsersByKeywords, xpozTwitterCountPosts } from "./tools/twitter.js";
+import { xpozInstagramSearch, xpozInstagramUser, xpozInstagramUserPosts, xpozInstagramPostComments, xpozInstagramSearchUsers, xpozInstagramUsersByKeywords } from "./tools/instagram.js";
+import { xpozRedditSearch, xpozRedditUser, xpozRedditPostWithComments, xpozRedditSearchComments, xpozRedditSearchSubreddits, xpozRedditSubreddit, xpozRedditUsersByKeywords } from "./tools/reddit.js";
+import { xpozTiktokSearch, xpozTiktokUser, xpozTiktokUserPosts, xpozTiktokPostComments, xpozTiktokSearchUsers, xpozTiktokPostsByHashtags, xpozTiktokUsersByKeywords } from "./tools/tiktok.js";
+import { xpozGetTrackedItems, xpozAddTrackedItems, xpozRemoveTrackedItems } from "./tools/tracking.js";
+import { xpozAccountDetails } from "./tools/account.js";
+
+export function xpozTools(options: XpozToolOptions = {}) {
+  const sharedOptions = { ...options, _getClient: createLazyClient(options) };
+
+  return {
+    xpozTwitterSearch: xpozTwitterSearch(sharedOptions),
+    xpozTwitterUser: xpozTwitterUser(sharedOptions),
+    xpozTwitterUserPosts: xpozTwitterUserPosts(sharedOptions),
+    xpozTwitterPostComments: xpozTwitterPostComments(sharedOptions),
+    xpozTwitterSearchUsers: xpozTwitterSearchUsers(sharedOptions),
+    xpozTwitterUserConnections: xpozTwitterUserConnections(sharedOptions),
+    xpozTwitterUsersByKeywords: xpozTwitterUsersByKeywords(sharedOptions),
+    xpozTwitterCountPosts: xpozTwitterCountPosts(sharedOptions),
+    xpozInstagramSearch: xpozInstagramSearch(sharedOptions),
+    xpozInstagramUser: xpozInstagramUser(sharedOptions),
+    xpozInstagramUserPosts: xpozInstagramUserPosts(sharedOptions),
+    xpozInstagramPostComments: xpozInstagramPostComments(sharedOptions),
+    xpozInstagramSearchUsers: xpozInstagramSearchUsers(sharedOptions),
+    xpozInstagramUsersByKeywords: xpozInstagramUsersByKeywords(sharedOptions),
+    xpozRedditSearch: xpozRedditSearch(sharedOptions),
+    xpozRedditUser: xpozRedditUser(sharedOptions),
+    xpozRedditPostWithComments: xpozRedditPostWithComments(sharedOptions),
+    xpozRedditSearchComments: xpozRedditSearchComments(sharedOptions),
+    xpozRedditSearchSubreddits: xpozRedditSearchSubreddits(sharedOptions),
+    xpozRedditSubreddit: xpozRedditSubreddit(sharedOptions),
+    xpozRedditUsersByKeywords: xpozRedditUsersByKeywords(sharedOptions),
+    xpozTiktokSearch: xpozTiktokSearch(sharedOptions),
+    xpozTiktokUser: xpozTiktokUser(sharedOptions),
+    xpozTiktokUserPosts: xpozTiktokUserPosts(sharedOptions),
+    xpozTiktokPostComments: xpozTiktokPostComments(sharedOptions),
+    xpozTiktokSearchUsers: xpozTiktokSearchUsers(sharedOptions),
+    xpozTiktokPostsByHashtags: xpozTiktokPostsByHashtags(sharedOptions),
+    xpozTiktokUsersByKeywords: xpozTiktokUsersByKeywords(sharedOptions),
+    xpozGetTrackedItems: xpozGetTrackedItems(sharedOptions),
+    xpozAddTrackedItems: xpozAddTrackedItems(sharedOptions),
+    xpozRemoveTrackedItems: xpozRemoveTrackedItems(sharedOptions),
+    xpozAccountDetails: xpozAccountDetails(sharedOptions),
+  };
+}
