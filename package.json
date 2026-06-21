@@ -1,0 +1,69 @@
+{
+  "name": "@xpoz/ai-sdk",
+  "version": "0.1.0",
+  "description": "Xpoz social media intelligence tools for Vercel AI SDK — Twitter/X, Instagram, Reddit, TikTok",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "ai",
+    "ai-sdk",
+    "tools",
+    "xpoz",
+    "social-media",
+    "twitter",
+    "instagram",
+    "reddit",
+    "tiktok",
+    "osint",
+    "social-listening",
+    "brand-monitoring",
+    "influencer-discovery",
+    "web-scraping",
+    "social-media-api"
+  ],
+  "author": "Xpoz <support@xpoz.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xpoz-ai/ai-sdk"
+  },
+  "homepage": "https://xpoz.ai",
+  "bugs": {
+    "url": "https://github.com/xpoz-ai/ai-sdk/issues"
+  },
+  "dependencies": {
+    "@xpoz/xpoz": "^0.6.0"
+  },
+  "peerDependencies": {
+    "ai": "^5.0.0 || ^6.0.0",
+    "zod": "^3.0.0 || ^4.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "@types/node": "^22.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}

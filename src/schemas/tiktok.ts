@@ -1,0 +1,56 @@
+import { z } from "zod";
+
+export const TiktokPostSchema = z.object({
+  id: z.string().nullish(),
+  postType: z.number().nullish(),
+  isPrivate: z.boolean().nullish(),
+  videoThumbnail: z.string().nullish(),
+  description: z.string().nullish(),
+  descriptionLanguage: z.string().nullish(),
+  userId: z.string().nullish(),
+  username: z.string().nullish(),
+  nickname: z.string().nullish(),
+  collectCount: z.number().nullish(),
+  commentCount: z.number().nullish(),
+  likeCount: z.number().nullish(),
+  downloadCount: z.number().nullish(),
+  forwardCount: z.number().nullish(),
+  playCount: z.number().nullish(),
+  hashtags: z.array(z.string()).nullish(),
+  duration: z.number().nullish(),
+  videoUrl: z.array(z.string()).nullish(),
+  createdAt: z.string().nullish(),
+  createdAtTimestamp: z.number().nullish(),
+  createdAtDate: z.string().nullish(),
+}).passthrough();
+
+export const TiktokUserSchema = z.object({
+  id: z.string().nullish(),
+  username: z.string().nullish(),
+  nickname: z.string().nullish(),
+  signature: z.string().nullish(),
+  secUid: z.string().nullish(),
+  avatar: z.string().nullish(),
+  isPrivate: z.boolean().nullish(),
+  isVerified: z.boolean().nullish(),
+  followerCount: z.number().nullish(),
+  followingCount: z.number().nullish(),
+  likeCount: z.number().nullish(),
+  postCount: z.number().nullish(),
+  language: z.string().nullish(),
+  region: z.string().nullish(),
+  createdAt: z.string().nullish(),
+  usernameModifyTime: z.string().nullish(),
+}).passthrough();
+
+export const TiktokCommentSchema = z.object({
+  id: z.string().nullish(),
+  postId: z.string().nullish(),
+  userId: z.string().nullish(),
+  username: z.string().nullish(),
+  text: z.string().nullish(),
+  likeCount: z.number().nullish(),
+  createdAt: z.string().nullish(),
+  createdAtTimestamp: z.number().nullish(),
+  createdAtDate: z.string().nullish(),
+}).passthrough();
