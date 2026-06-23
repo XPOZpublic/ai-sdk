@@ -1,6 +1,6 @@
 {
   "name": "@xpoz/ai-sdk",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Xpoz social media intelligence tools for Vercel AI SDK — Twitter/X, Instagram, Reddit, TikTok",
   "type": "module",
   "main": "./dist/index.js",
