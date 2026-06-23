@@ -20,7 +20,7 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { xpozTwitterSearch, xpozInstagramUser } from "@xpoz/ai-sdk";
 
 const result = await generateText({
-  model: anthropic("claude-sonnet-4-5-20250929"),
+  model: anthropic("claude-sonnet-4-5"),
   tools: {
     twitterSearch: xpozTwitterSearch({ apiKey: "your-xpoz-key" }),
     instagramUser: xpozInstagramUser({ apiKey: "your-xpoz-key" }),
@@ -37,9 +37,10 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { xpozTools } from "@xpoz/ai-sdk";
 
 const result = await generateText({
-  model: anthropic("claude-sonnet-4-5-20250929"),
+  model: anthropic("claude-sonnet-4-6"),
   tools: xpozTools({ apiKey: "your-xpoz-key" }),
-  prompt: "Compare the social media presence of @openai across Twitter, Instagram, and TikTok",
+  prompt:
+    "Compare the social media presence of @openai across Twitter, Instagram, and TikTok",
 });
 ```
 
@@ -48,56 +49,61 @@ You can also set the `XPOZ_API_KEY` environment variable instead of passing `api
 ## Available Tools
 
 ### Twitter/X
-| Tool | Description |
-|------|-------------|
-| `xpozTwitterSearch` | Search posts by keywords, hashtags, or phrases |
-| `xpozTwitterUser` | Get a user profile by username or ID |
-| `xpozTwitterUserPosts` | Get posts by a specific user |
-| `xpozTwitterPostComments` | Get replies to a specific tweet |
-| `xpozTwitterSearchUsers` | Search users by name |
-| `xpozTwitterUserConnections` | Get a user's followers or following |
-| `xpozTwitterUsersByKeywords` | Find users who posted about specific topics |
-| `xpozTwitterCountPosts` | Count posts matching a phrase |
+
+| Tool                         | Description                                    |
+| ---------------------------- | ---------------------------------------------- |
+| `xpozTwitterSearch`          | Search posts by keywords, hashtags, or phrases |
+| `xpozTwitterUser`            | Get a user profile by username or ID           |
+| `xpozTwitterUserPosts`       | Get posts by a specific user                   |
+| `xpozTwitterPostComments`    | Get replies to a specific tweet                |
+| `xpozTwitterSearchUsers`     | Search users by name                           |
+| `xpozTwitterUserConnections` | Get a user's followers or following            |
+| `xpozTwitterUsersByKeywords` | Find users who posted about specific topics    |
+| `xpozTwitterCountPosts`      | Count posts matching a phrase                  |
 
 ### Instagram
-| Tool | Description |
-|------|-------------|
-| `xpozInstagramSearch` | Search posts by keywords |
-| `xpozInstagramUser` | Get a user profile by username or ID |
-| `xpozInstagramUserPosts` | Get posts by a specific user |
-| `xpozInstagramPostComments` | Get comments on a post |
-| `xpozInstagramSearchUsers` | Search users by name |
+
+| Tool                           | Description                                 |
+| ------------------------------ | ------------------------------------------- |
+| `xpozInstagramSearch`          | Search posts by keywords                    |
+| `xpozInstagramUser`            | Get a user profile by username or ID        |
+| `xpozInstagramUserPosts`       | Get posts by a specific user                |
+| `xpozInstagramPostComments`    | Get comments on a post                      |
+| `xpozInstagramSearchUsers`     | Search users by name                        |
 | `xpozInstagramUsersByKeywords` | Find users who posted about specific topics |
 
 ### Reddit
-| Tool | Description |
-|------|-------------|
-| `xpozRedditSearch` | Search posts by keywords, filter by subreddit |
-| `xpozRedditUser` | Get a user profile |
-| `xpozRedditPostWithComments` | Get a post with its comment thread |
-| `xpozRedditSearchComments` | Search comments by keywords |
-| `xpozRedditSearchSubreddits` | Search subreddits by name or topic |
-| `xpozRedditSubreddit` | Get subreddit info with recent posts |
-| `xpozRedditUsersByKeywords` | Find users who posted about specific topics |
+
+| Tool                         | Description                                   |
+| ---------------------------- | --------------------------------------------- |
+| `xpozRedditSearch`           | Search posts by keywords, filter by subreddit |
+| `xpozRedditUser`             | Get a user profile                            |
+| `xpozRedditPostWithComments` | Get a post with its comment thread            |
+| `xpozRedditSearchComments`   | Search comments by keywords                   |
+| `xpozRedditSearchSubreddits` | Search subreddits by name or topic            |
+| `xpozRedditSubreddit`        | Get subreddit info with recent posts          |
+| `xpozRedditUsersByKeywords`  | Find users who posted about specific topics   |
 
 ### TikTok
-| Tool | Description |
-|------|-------------|
-| `xpozTiktokSearch` | Search videos by keywords |
-| `xpozTiktokUser` | Get a creator profile |
-| `xpozTiktokUserPosts` | Get videos by a specific creator |
-| `xpozTiktokPostComments` | Get comments on a video |
-| `xpozTiktokSearchUsers` | Search creators by name |
-| `xpozTiktokPostsByHashtags` | Search videos by hashtags |
+
+| Tool                        | Description                                    |
+| --------------------------- | ---------------------------------------------- |
+| `xpozTiktokSearch`          | Search videos by keywords                      |
+| `xpozTiktokUser`            | Get a creator profile                          |
+| `xpozTiktokUserPosts`       | Get videos by a specific creator               |
+| `xpozTiktokPostComments`    | Get comments on a video                        |
+| `xpozTiktokSearchUsers`     | Search creators by name                        |
+| `xpozTiktokPostsByHashtags` | Search videos by hashtags                      |
 | `xpozTiktokUsersByKeywords` | Find creators who posted about specific topics |
 
 ### Tracking & Account
-| Tool | Description |
-|------|-------------|
-| `xpozGetTrackedItems` | List all tracked keywords, users, hashtags |
-| `xpozAddTrackedItems` | Start tracking new items across platforms |
-| `xpozRemoveTrackedItems` | Stop tracking items |
-| `xpozAccountDetails` | Get account plan, usage, and billing info |
+
+| Tool                     | Description                                |
+| ------------------------ | ------------------------------------------ |
+| `xpozGetTrackedItems`    | List all tracked keywords, users, hashtags |
+| `xpozAddTrackedItems`    | Start tracking new items across platforms  |
+| `xpozRemoveTrackedItems` | Stop tracking items                        |
+| `xpozAccountDetails`     | Get account plan, usage, and billing info  |
 
 ## Configuration
 
@@ -105,9 +111,9 @@ All tool factory functions accept these options:
 
 ```typescript
 interface XpozToolOptions {
-  apiKey?: string;     // Xpoz access key (or set XPOZ_API_KEY env var)
-  serverUrl?: string;  // Custom server URL (default: https://mcp.xpoz.ai/mcp)
-  timeoutMs?: number;  // Request timeout in ms (default: 300000)
+  apiKey?: string; // Xpoz access key (or set XPOZ_API_KEY env var)
+  serverUrl?: string; // Custom server URL (default: https://mcp.xpoz.ai/mcp)
+  timeoutMs?: number; // Request timeout in ms (default: 300000)
 }
 ```
 
