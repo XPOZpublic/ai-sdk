@@ -41,11 +41,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xpoz-ai/ai-sdk"
+    "url": "https://github.com/XPOZpublic/ai-sdk"
   },
   "homepage": "https://xpoz.ai",
   "bugs": {
-    "url": "https://github.com/xpoz-ai/ai-sdk/issues"
+    "url": "https://github.com/XPOZpublic/ai-sdk/issues"
   },
   "dependencies": {
     "@xpoz/xpoz": "^0.6.0"
