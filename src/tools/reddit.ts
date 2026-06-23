@@ -186,3 +186,45 @@ export const xpozRedditUsersByKeywords = (options: XpozToolOptions = {}) => {
     },
   });
 };
+
+export const xpozRedditSearchUsers = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Search for Reddit users by name. " +
+      "Returns matching user profiles with karma scores and account info.",
+    inputSchema: z.object({
+      name: z.string().describe("Name or partial name to search for"),
+      limit: z.number().optional().describe("Maximum number of users to return"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${REDDIT_USER_FIELDS}`),
+    }),
+    outputSchema: z.array(RedditUserSchema),
+    execute: async ({ name, limit, fields }) => {
+      const client = await getClient();
+      return await client.reddit.searchUsers(name, { limit, fields });
+    },
+  });
+};
+
+export const xpozRedditSubredditsByKeywords = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Find subreddits related to specific keywords or topics. " +
+      "Returns subreddits ranked by relevance to the query.",
+    inputSchema: z.object({
+      query: z.string().describe("Keywords to find related subreddits"),
+      startDate: z.string().optional().describe("Filter by posts after this date (YYYY-MM-DD)"),
+      endDate: z.string().optional().describe("Filter by posts before this date (YYYY-MM-DD)"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${REDDIT_SUBREDDIT_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(RedditSubredditSchema), totalResults: z.number() }),
+    execute: async ({ query, startDate, endDate, fields }) => {
+      const client = await getClient();
+      const result = await client.reddit.getSubredditsByKeywords(query, { startDate, endDate, fields });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};

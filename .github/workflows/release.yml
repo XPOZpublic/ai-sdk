@@ -91,10 +91,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ steps.versions.outputs.version }}" \
-            --title "v${{ steps.versions.outputs.version }}" \
-            --generate-notes \
-            --notes-start-tag "v${{ steps.versions.outputs.previous_version }}"
+          if git rev-parse "v${{ steps.versions.outputs.previous_version }}" >/dev/null 2>&1; then
+            gh release create "v${{ steps.versions.outputs.version }}" \
+              --title "v${{ steps.versions.outputs.version }}" \
+              --generate-notes \
+              --notes-start-tag "v${{ steps.versions.outputs.previous_version }}"
+          else
+            gh release create "v${{ steps.versions.outputs.version }}" \
+              --title "v${{ steps.versions.outputs.version }}" \
+              --generate-notes
+          fi
 
   notify-failure:
     runs-on: ubuntu-latest

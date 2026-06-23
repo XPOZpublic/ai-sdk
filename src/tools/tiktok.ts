@@ -182,3 +182,50 @@ export const xpozTiktokUsersByKeywords = (options: XpozToolOptions = {}) => {
     },
   });
 };
+
+export const xpozTiktokPostsByIds = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get specific TikTok videos by their IDs. " +
+      "Returns full post data for the given video IDs.",
+    inputSchema: z.object({
+      postIds: z.array(z.string()).describe("Array of TikTok video/post IDs to retrieve"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TIKTOK_POST_FIELDS}`),
+    }),
+    outputSchema: z.array(TiktokPostSchema),
+    execute: async ({ postIds, fields }) => {
+      const client = await getClient();
+      return await client.tiktok.getPostsByIds(postIds, { fields });
+    },
+  });
+};
+
+export const xpozTiktokUsersByHashtags = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Find TikTok creators who posted with specific hashtags. " +
+      "Returns creator profiles ranked by relevance.",
+    inputSchema: z.object({
+      hashtags: z.array(z.string()).describe("List of hashtags to search for (without # prefix)"),
+      maxResults: z.number().optional().describe("Maximum number of results to return"),
+      startDate: z.string().optional().describe("Filter by posts after this date (YYYY-MM-DD)"),
+      endDate: z.string().optional().describe("Filter by posts before this date (YYYY-MM-DD)"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TIKTOK_USER_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(TiktokUserSchema), totalResults: z.number() }),
+    execute: async ({ hashtags, maxResults, startDate, endDate, fields }) => {
+      const client = await getClient();
+      const result = await client.tiktok.getUsersByHashtags(hashtags, {
+        limit: maxResults,
+        startDate,
+        endDate,
+        fields,
+      });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};

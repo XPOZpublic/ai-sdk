@@ -20,7 +20,7 @@ import { anthropic } from "@ai-sdk/anthropic";
 import { xpozTwitterSearch, xpozInstagramUser } from "@xpoz/ai-sdk";
 
 const result = await generateText({
-  model: anthropic("claude-sonnet-4-5"),
+  model: anthropic("claude-sonnet-4-6"),
   tools: {
     twitterSearch: xpozTwitterSearch({ apiKey: "your-xpoz-key" }),
     instagramUser: xpozInstagramUser({ apiKey: "your-xpoz-key" }),

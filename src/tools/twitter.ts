@@ -198,3 +198,103 @@ export const xpozTwitterCountPosts = (options: XpozToolOptions = {}) => {
     },
   });
 };
+
+export const xpozTwitterPostsByIds = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get specific Twitter/X posts by their IDs. " +
+      "Returns full post data for the given tweet IDs.",
+    inputSchema: z.object({
+      postIds: z.array(z.string()).describe("Array of Twitter post/tweet IDs to retrieve"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TWITTER_POST_FIELDS}`),
+    }),
+    outputSchema: z.array(TwitterPostSchema),
+    execute: async ({ postIds, fields }) => {
+      const client = await getClient();
+      return await client.twitter.getPostsByIds(postIds, { fields });
+    },
+  });
+};
+
+export const xpozTwitterPostRetweets = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get retweets of a specific Twitter/X post. " +
+      "Returns the retweeted versions with engagement metrics.",
+    inputSchema: z.object({
+      postId: z.string().describe("The Twitter post/tweet ID to get retweets for"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TWITTER_POST_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(TwitterPostSchema), totalResults: z.number() }),
+    execute: async ({ postId, fields }) => {
+      const client = await getClient();
+      const result = await client.twitter.getRetweets(postId, { fields });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};
+
+export const xpozTwitterPostQuotes = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get quote tweets of a specific Twitter/X post. " +
+      "Returns posts that quoted the given tweet.",
+    inputSchema: z.object({
+      postId: z.string().describe("The Twitter post/tweet ID to get quotes for"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TWITTER_POST_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(TwitterPostSchema), totalResults: z.number() }),
+    execute: async ({ postId, fields }) => {
+      const client = await getClient();
+      const result = await client.twitter.getQuotes(postId, { fields });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};
+
+export const xpozTwitterPostInteractingUsers = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get users who interacted with a specific Twitter/X post. " +
+      "Returns user profiles who liked, retweeted, or quoted the tweet.",
+    inputSchema: z.object({
+      postId: z.string().describe("The Twitter post/tweet ID"),
+      interactionType: z.enum(["likers", "retweeters", "quoters"]).describe("Type of interaction"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TWITTER_USER_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(TwitterUserSchema), totalResults: z.number() }),
+    execute: async ({ postId, interactionType, fields }) => {
+      const client = await getClient();
+      const result = await client.twitter.getPostInteractingUsers(postId, interactionType, { fields });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};
+
+export const xpozTwitterUsers = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get multiple Twitter/X user profiles by usernames or IDs. " +
+      "Returns profile data for all specified users in a single request.",
+    inputSchema: z.object({
+      identifiers: z.array(z.string()).describe("Array of Twitter usernames (without @) or user IDs"),
+      identifierType: z.enum(["username", "id"]).optional().describe("Whether identifiers are usernames or IDs (default: username)"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${TWITTER_USER_FIELDS}`),
+    }),
+    outputSchema: z.array(TwitterUserSchema),
+    execute: async ({ identifiers, identifierType, fields }) => {
+      const client = await getClient();
+      return await client.twitter.getUsers(identifiers, { identifierType, fields });
+    },
+  });
+};

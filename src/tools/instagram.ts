@@ -154,3 +154,64 @@ export const xpozInstagramUsersByKeywords = (options: XpozToolOptions = {}) => {
     },
   });
 };
+
+export const xpozInstagramPostsByIds = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get specific Instagram posts by their IDs. " +
+      "Returns full post data for the given post IDs.",
+    inputSchema: z.object({
+      postIds: z.array(z.string()).describe("Array of Instagram post IDs to retrieve"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${INSTAGRAM_POST_FIELDS}`),
+    }),
+    outputSchema: z.array(InstagramPostSchema),
+    execute: async ({ postIds, fields }) => {
+      const client = await getClient();
+      return await client.instagram.getPostsByIds(postIds, { fields });
+    },
+  });
+};
+
+export const xpozInstagramUserConnections = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get an Instagram user's followers or accounts they follow. " +
+      "Returns user profiles of connected accounts.",
+    inputSchema: z.object({
+      username: z.string().describe("Instagram username"),
+      connectionType: z.enum(["followers", "following"]).describe("Type of connection to retrieve"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${INSTAGRAM_USER_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(InstagramUserSchema), totalResults: z.number() }),
+    execute: async ({ username, connectionType, fields }) => {
+      const client = await getClient();
+      const result = await client.instagram.getUserConnections(username, connectionType, { fields });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};
+
+export const xpozInstagramPostInteractingUsers = (options: XpozToolOptions = {}) => {
+  const getClient = createLazyClient(options);
+
+  return tool({
+    description:
+      "Get users who interacted with a specific Instagram post. " +
+      "Returns user profiles who liked or commented on the post.",
+    inputSchema: z.object({
+      postId: z.string().describe("The Instagram post ID"),
+      interactionType: z.enum(["likers", "commenters"]).describe("Type of interaction"),
+      fields: z.array(z.string()).optional().describe(`Fields to include in the response. Omit for default fields. ${INSTAGRAM_USER_FIELDS}`),
+    }),
+    outputSchema: z.object({ data: z.array(InstagramUserSchema), totalResults: z.number() }),
+    execute: async ({ postId, interactionType, fields }) => {
+      const client = await getClient();
+      const result = await client.instagram.getPostInteractingUsers(postId, interactionType, { fields });
+      return { data: result.data, totalResults: result.pagination.totalRows };
+    },
+  });
+};
